@@ -1,0 +1,19 @@
+services:
+  model-training:
+    # Each of these will have their own custom image that we 
+    # create and release to the GitHub container registry
+    image: ubuntu
+    command: ["sleep","infinity"]
+    # ports:
+    #   - 8080:80
+    # volumes:
+    #   - ./html:/usr/share/nginx/html
+  model-service:
+    image: ubuntu
+    command: ["sleep","infinity"]
+  lib:
+    image: ubuntu
+    command: ["sleep","infinity"]
+  app:
+    image: ubuntu
+    command: ["sleep","infinity"]
