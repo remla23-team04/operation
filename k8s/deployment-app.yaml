@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: app
-        image: ghcr.io/remla23-team04/app:0.0.1
+        image: ghcr.io/remla23-team04/app:0.0.7
+
         imagePullPolicy: IfNotPresent
         resources:
           limits:
@@ -23,7 +24,7 @@ spec:
             cpu: "500m"
         env:
           - name: MODEL_SERVICE_URL
-            value: "localhost:5000"
+            value: "http://model-service-service:5001"
         ports:
           - containerPort: 5000       
 ---
