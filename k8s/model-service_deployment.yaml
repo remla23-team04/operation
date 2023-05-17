@@ -15,13 +15,13 @@ spec:
     spec:
       containers:
       - name: model-service
-        image: ghcr.io/remla23-team04/model-service:0.0.1
+        image: ghcr.io/remla23-team04/model-service:0.0.3
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports:
-        - containerPort: 5000
+        - containerPort: 5001
 ---
 apiVersion: v1
 kind: Service
@@ -31,6 +31,7 @@ spec:
   selector:
     app: model-service
   ports:
-  - port: 5000
-    targetPort: 5000
+  - port: 5001
+    name: http
+    targetPort: 5001
 
