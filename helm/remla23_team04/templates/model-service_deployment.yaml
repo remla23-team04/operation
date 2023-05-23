@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-service-deployment
+  labels:
+    app: model-service
+spec:
+  selector:
+    matchLabels:
+      app: model-service
+  template:
+    metadata:
+      labels:
+        app: model-service
+    spec:
+      containers:
+      - name: model-service
+        image: ghcr.io/remla23-team04/model-service:0.0.3
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-service-service
+spec:
+  selector:
+    app: model-service
+  ports:
+  - port: 5001
+    name: http
+    targetPort: 5001
+
