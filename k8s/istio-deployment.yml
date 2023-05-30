@@ -135,6 +135,9 @@ spec:
   template:
     metadata:
       labels: { app: app, version: v1 }
+      annotations:
+         prometheus.io/scrape: "true"
+         prometheus.io/port: "5000"
     spec:
       containers:
       - name: app
@@ -161,6 +164,9 @@ spec:
   template:
     metadata:
       labels: { app: model-service, version: v1 }
+      annotations:
+         prometheus.io/scrape: "true"
+         prometheus.io/port: "5001"
     spec:
       containers:
       - name: model-service
@@ -186,6 +192,9 @@ spec:
   template:
     metadata:
       labels: { app: app, version: v2 }
+      annotations:
+         prometheus.io/scrape: "true"
+         prometheus.io/port: "5000"
     spec:
       containers:
       - name: app
@@ -212,6 +221,9 @@ spec:
   template:
     metadata:
       labels: { app: model-service, version: v2 }
+      annotations:
+         prometheus.io/scrape: "true"
+         prometheus.io/port: "5001"
     spec:
       containers:
       - name: model-service
