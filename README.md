@@ -15,6 +15,10 @@ This repo uses docker to compose services from the following four repositories:
 
 ## Running the services
 
+Below are guides for how to run the services through docker and through kubernetes
+
+### Running the services through Docker
+
 In order to run them:
 - clone this repo
 - `cd` into the repo root
@@ -30,3 +34,9 @@ Alternatively you can build the images from scratch:
 - run `docker compose build` to build the services according to their `dockerfile`'s, or `docker compose up --build` to both build and run them
 
 Run `docker compose down` to stop and remove the containers
+
+### Running the services through Kubernetes
+
+The Istio deployment is defined in `k8s/istio-deployment.yml`. It includes traffic management through Istio, such that 90% of requests are routed to v1 of the frontend `app` and v2 are routed to v2. The different versions of the apps can be identified by different background colours. Prometheus is configued to collect app-specific metrics including `predictions_counter`, `wrong_predictions`, and `correct_predictions`. These two metrics are collected from both versions of the frontend `app`. 
+
+The additional use case is the use of a shadow launch. Two versions of the model-service exist, and requests are mirrored to both. The use case of this functionality is that it is possible to compare the performance of the two model services without exposing the experimental one. We can compare how many times the models disagree in their sentiment assessment, as well as how long it took for both models to process the request.
