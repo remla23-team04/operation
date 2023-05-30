@@ -43,15 +43,15 @@ metadata:
   name: model-service-virtual-service
 spec:
   hosts:
-  - model-service
+  - model-service-service
   http:
   - route:
     - destination:
-        host: model-service
+        host: model-service-service
         subset: v1
       weight: 100
     mirror:
-      host: model-service
+      host: model-service-service
       subset: v2
     mirrorPercentage:
       value: 100.0
