@@ -23,7 +23,15 @@ spec:
             cpu: "500m"
         env:
           - name: MODEL_SERVICE_URL
-            value: "http://model-service-service:5001"
+            valueFrom:
+              configMapKeyRef:
+                name: model-service
+                key: url
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: password
         ports:
           - containerPort: 5000       
 ---
@@ -40,5 +48,21 @@ spec:
   - port: 5000
     name: http
     targetPort: 5000
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+data:
+  password: dGVhbTA0
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: model-service
+data:
+  url: "http://model-service-service:5001"
 
 
