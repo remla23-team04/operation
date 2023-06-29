@@ -1,4 +1,5 @@
-# istioctl install
+istioctl install
+minikube addons enable ingress
 kubectl label ns default istio-injection=enabled
 kubectl get ns default --show-labels
 # Addons
