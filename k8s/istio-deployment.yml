@@ -54,7 +54,7 @@ spec:
       host: model-service
       subset: v2
     mirrorPercentage:
-      value: 100.0
+      value: 50.0
 # ---
 # apiVersion: networking.istio.io/v1alpha3
 # kind: VirtualService
@@ -183,7 +183,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: ghcr.io/remla23-team04/app:0.2.1
+        image: ghcr.io/remla23-team04/app:latest
         imagePullPolicy: IfNotPresent
         resources:
           limits:
@@ -191,7 +191,15 @@ spec:
             cpu: "500m"
         env:
           - name: MODEL_SERVICE_URL
-            value: "http://model-service:5001"
+            valueFrom:
+              configMapKeyRef:
+                name: model-service-config
+                key: url
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: password
         ports:
           - containerPort: 5000       
 ---
@@ -240,7 +248,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: ghcr.io/remla23-team04/app:0.2.2
+        image: ghcr.io/remla23-team04/app:latest
         imagePullPolicy: IfNotPresent
         resources:
           limits:
@@ -248,7 +256,15 @@ spec:
             cpu: "500m"
         env:
           - name: MODEL_SERVICE_URL
-            value: "http://model-service:5001"
+            valueFrom:
+              configMapKeyRef:
+                name: model-service-config
+                key: url
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: password
         ports:
           - containerPort: 5000       
 ---
@@ -269,10 +285,25 @@ spec:
     spec:
       containers:
       - name: model-service
-        image: ghcr.io/remla23-team04/model-service:latest
+        image: ghcr.io/remla23-team04/model-service:0.1.10
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports:
         - containerPort: 5001
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+data:
+  password: dGVhbTA0
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: model-service-config
+data:
+  url: "http://model-service:5001"
